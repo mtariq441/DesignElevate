@@ -1,0 +1,186 @@
+General Setup
+
+Tech Stack (suggested):
+
+Frontend: HTML5, CSS3, JavaScript (or Tailwind/Bootstrap for faster styling)
+
+CMS: WordPress or Webflow (optional for easier management)
+
+SEO: Structured schema, meta tags, OpenGraph
+
+Hosting: Fast, SSL enabled (Cloudflare, Netlify, or cPanel hosting)
+
+Fonts & Colors:
+
+Font: Sans-serif (Roboto / Open Sans)
+
+Colors:
+
+Primary: #0A192F (dark navy)
+
+Accent: #00BFA6 (teal green)
+
+Neutral: #F9F9F9 (light background)
+
+Text: #333
+
+Navbar (Fixed / Sticky):
+
+Logo/Name (left side)
+
+Menu items (right side):
+
+Home | Who Am I | Education | Expertise (Dropdown) | Blog | Contact
+
+2. Page-by-Page Guide
+A. Home Page
+
+URL: /
+
+Hero Section:
+
+Background: Clean, minimal
+
+Left: Short intro → “Hi, I’m Muhammad Irshad Khan, a Web Security & Development Specialist.”
+
+Right: Professional image / avatar
+
+CTA Buttons → “Explore My Work” | “Hire Me”
+
+Highlights Section:
+
+Grid layout (3–4 cards): Security, Development, SEO, Marketing, Copywriting
+
+Each card links to expertise page
+
+Latest Blogs Preview:
+
+Show 3–4 latest posts with image, title, short snippet, CTA → Read More
+
+Call To Action (CTA):
+
+“Let’s Build Something Great Together” → Contact page link
+
+B. Who Am I
+
+URL: /who-am-i/
+
+About Me Section:
+
+Personal intro + professional journey
+
+Mission statement
+
+Timeline/Story with milestones
+
+Photo / Visual Timeline:
+
+Use cards or vertical timeline for life story
+
+C. Education
+
+URL: /education/
+
+Education Timeline:
+
+Degree (University, Year)
+
+Certifications (Google, HubSpot, etc.)
+
+Training/Workshops
+
+Layout → Vertical timeline or step cards
+
+D. Expertise Hub Page
+
+URL: /expertise/
+
+Intro Section:
+
+“I specialize in multiple areas of digital growth.”
+
+Expertise Cards (Grid):
+
+Each card = Image/Icon + Short description + Button → “Learn More”
+
+Sub-pages linked:
+
+Web Security Specialist
+
+Web Development Specialist
+
+Freelance SEO Specialist
+
+Marketing Automation Specialist
+
+Copywriting Specialist
+
+E. Expertise Sub-Pages
+
+Example URL: /expertise/web-security-specialist/
+
+Each page includes:
+
+Hero: Title + short tagline
+
+Overview: What the expertise is & why it matters
+
+Services/Offerings: Bullet list (e.g., Pen testing, Website Hardening, etc.)
+
+Case Study / Example: Show results or portfolio
+
+CTA Button: “Work With Me” → Contact
+
+F. Blog Page
+
+URL: /blog/
+
+Categories:
+
+SEO
+
+AI SEO
+
+Business Growth
+
+Marketing Automation
+
+Web Development & Security
+
+Copywriting & Branding
+
+Layout:
+
+Grid of blog cards (image, title, category, snippet, CTA)
+
+Sidebar: Categories, Search, Popular Posts
+
+G. Contact Page
+
+URL: /contact/
+
+Form Fields:
+
+Name, Email, Subject, Message
+
+Submit → Email integration (SMTP or Formspree)
+
+Additional Info:
+
+Email address
+
+Social media icons
+
+Google Maps (optional)
+
+3. Footer (Global)
+
+Left side: Logo / Name + short tagline
+
+Middle: Quick Links → Home | Who Am I | Expertise | Blog | Contact
+
+Right side: Social media icons (LinkedIn, Twitter, GitHub)
+
+Bottom bar:
+
+© 2025 Muhammad Irshad Khan. All rights reserved.
