@@ -55,6 +55,7 @@ export default function ContactForm() {
 
   const onSubmit = async (values: ContactForm) => {
     setIsSubmitting(true);
+    console.log('Form submitted with values:', values);
     
     try {
       const response = await fetch('/api/contact-submissions', {
@@ -232,7 +233,7 @@ export default function ContactForm() {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Service Interest</FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <Select onValueChange={field.onChange} value={field.value}>
                           <FormControl>
                             <SelectTrigger data-testid="select-service">
                               <SelectValue placeholder="Select a service" />
@@ -245,6 +246,55 @@ export default function ContactForm() {
                             <SelectItem value="marketing-automation">Marketing Automation</SelectItem>
                             <SelectItem value="copywriting">Copywriting</SelectItem>
                             <SelectItem value="consultation">General Consultation</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
+                {/* Optional fields */}
+                <div className="grid md:grid-cols-2 gap-6">
+                  {/* Company Field */}
+                  <FormField
+                    control={form.control}
+                    name="company"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Company (Optional)</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Your company name"
+                            {...field}
+                            data-testid="input-company"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  {/* Budget Field */}
+                  <FormField
+                    control={form.control}
+                    name="budget"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Budget Range (Optional)</FormLabel>
+                        <Select onValueChange={field.onChange} value={field.value}>
+                          <FormControl>
+                            <SelectTrigger data-testid="select-budget">
+                              <SelectValue placeholder="Select budget range" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value="under-1k">Under $1,000</SelectItem>
+                            <SelectItem value="1k-5k">$1,000 - $5,000</SelectItem>
+                            <SelectItem value="5k-10k">$5,000 - $10,000</SelectItem>
+                            <SelectItem value="10k-25k">$10,000 - $25,000</SelectItem>
+                            <SelectItem value="25k-plus">$25,000+</SelectItem>
+                            <SelectItem value="discuss">Let's discuss</SelectItem>
                           </SelectContent>
                         </Select>
                         <FormMessage />
