@@ -2,7 +2,8 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Send, Mail, Phone, MapPin } from "lucide-react";
+import { Send, Mail, Phone, MapPin, CheckCircle, AlertCircle } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -37,6 +38,7 @@ type ContactForm = z.infer<typeof contactSchema>;
 
 export default function ContactForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { toast } = useToast();
 
   const form = useForm<ContactForm>({
     resolver: zodResolver(contactSchema),
@@ -71,18 +73,32 @@ export default function ContactForm() {
       });
 
       if (!response.ok) {
-        throw new Error('Failed to submit contact form');
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to submit contact form');
       }
 
+      const result = await response.json();
+      
       // Success - reset form
       form.reset();
       
-      // TODO: Show success message to user
-      console.log("Contact form submitted successfully!");
+      // Show success message to user
+      toast({
+        title: "Message Sent Successfully!",
+        description: "Thank you for your message! I'll get back to you within 2-4 hours.",
+        duration: 5000,
+      });
       
     } catch (error) {
       console.error('Error submitting contact form:', error);
-      // TODO: Show error message to user
+      
+      // Show error message to user
+      toast({
+        title: "Failed to Send Message",
+        description: error instanceof Error ? error.message : "Something went wrong. Please try again or contact me directly.",
+        variant: "destructive",
+        duration: 5000,
+      });
     } finally {
       setIsSubmitting(false);
     }
