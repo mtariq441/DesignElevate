@@ -1,12 +1,19 @@
+import { useEffect } from "react";
 import { ArrowRight, Shield, Code, TrendingUp, Zap, PenTool } from "lucide-react";
+import { Link } from "wouter";
 import HeroSection from "@/components/HeroSection";
 import ExpertiseCard from "@/components/ExpertiseCard";
 import BlogCard from "@/components/BlogCard";
 import { Button } from "@/components/ui/button";
+import { updatePageSEO, defaultSEO } from "@/utils/seo";
 import webSecurityImg from "@assets/generated_images/Web_security_illustration_dd7c81da.png";
 import webDevImg from "@assets/generated_images/Web_development_illustration_a68ada74.png";
 
 export default function Home() {
+  useEffect(() => {
+    updatePageSEO(defaultSEO);
+  }, []);
+
   // TODO: Remove mock data when implementing real content management
   const expertiseItems = [
     {
@@ -100,20 +107,6 @@ export default function Home() {
     }
   ];
 
-  const handleViewAllExpertise = () => {
-    console.log('Navigate to expertise hub');
-    // TODO: Navigate to /expertise
-  };
-
-  const handleViewAllBlogs = () => {
-    console.log('Navigate to blog page');
-    // TODO: Navigate to /blog
-  };
-
-  const handleGetStarted = () => {
-    console.log('Navigate to contact page');
-    // TODO: Navigate to /contact
-  };
 
   return (
     <div className="min-h-screen">
@@ -146,14 +139,15 @@ export default function Home() {
 
           {/* View All Button */}
           <div className="text-center">
-            <Button 
-              size="lg" 
-              onClick={handleViewAllExpertise}
-              data-testid="button-view-all-expertise"
-            >
-              View All Expertise
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
+            <Link href="/expertise">
+              <Button 
+                size="lg" 
+                data-testid="button-view-all-expertise"
+              >
+                View All Expertise
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+            </Link>
           </div>
         </div>
       </section>
@@ -184,15 +178,16 @@ export default function Home() {
 
           {/* View All Button */}
           <div className="text-center">
-            <Button 
-              variant="outline" 
-              size="lg"
-              onClick={handleViewAllBlogs}
-              data-testid="button-view-all-blogs"
-            >
-              View All Articles
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
+            <Link href="/blog">
+              <Button 
+                variant="outline" 
+                size="lg"
+                data-testid="button-view-all-blogs"
+              >
+                View All Articles
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+            </Link>
           </div>
         </div>
       </section>
@@ -208,24 +203,27 @@ export default function Home() {
             develop, and optimize your online business for maximum impact.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button 
-              size="lg" 
-              variant="secondary"
-              className="px-8 py-3 text-lg"
-              onClick={handleGetStarted}
-              data-testid="button-get-started"
-            >
-              Get Started Today
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
-            <Button 
-              size="lg" 
-              variant="outline" 
-              className="px-8 py-3 text-lg border-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/10"
-              data-testid="button-view-portfolio"
-            >
-              View My Work
-            </Button>
+            <Link href="/contact">
+              <Button 
+                size="lg" 
+                variant="secondary"
+                className="px-8 py-3 text-lg"
+                data-testid="button-get-started"
+              >
+                Get Started Today
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+            </Link>
+            <Link href="/expertise">
+              <Button 
+                size="lg" 
+                variant="outline" 
+                className="px-8 py-3 text-lg border-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/10"
+                data-testid="button-view-portfolio"
+              >
+                View My Work
+              </Button>
+            </Link>
           </div>
         </div>
       </section>

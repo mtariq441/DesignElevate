@@ -13,6 +13,11 @@ import Contact from "@/pages/Contact";
 import ExpertiseHub from "@/pages/ExpertiseHub";
 import WebSecurityExpertise from "@/pages/WebSecurityExpertise";
 import WebDevelopmentExpertise from "@/pages/WebDevelopmentExpertise";
+import SEOExpertise from "@/pages/SEOExpertise";
+import MarketingAutomationExpertise from "@/pages/MarketingAutomationExpertise";
+import CopywritingExpertise from "@/pages/CopywritingExpertise";
+import Blog from "@/pages/Blog";
+import BlogPost from "@/pages/BlogPost";
 import NotFound from "@/pages/NotFound";
 
 function Router() {
@@ -24,6 +29,11 @@ function Router() {
       <Route path="/expertise" component={ExpertiseHub} />
       <Route path="/expertise/web-security" component={WebSecurityExpertise} />
       <Route path="/expertise/web-development" component={WebDevelopmentExpertise} />
+      <Route path="/expertise/seo" component={SEOExpertise} />
+      <Route path="/expertise/marketing-automation" component={MarketingAutomationExpertise} />
+      <Route path="/expertise/copywriting" component={CopywritingExpertise} />
+      <Route path="/blog" component={Blog} />
+      <Route path="/blog/:slug" component={BlogPost} />
       <Route path="/contact" component={Contact} />
       {/* Fallback to 404 */}
       <Route component={NotFound} />
