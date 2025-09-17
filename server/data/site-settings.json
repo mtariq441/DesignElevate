@@ -1,0 +1,58 @@
+[
+  {
+    "id": "1",
+    "key": "site_title",
+    "value": "Muhammad Irshad Khan - Web Security & Development Specialist",
+    "description": "Main site title displayed in browser tabs and search results",
+    "updatedAt": "2024-01-01T00:00:00Z"
+  },
+  {
+    "id": "2",
+    "key": "site_description",
+    "value": "Expert web security auditing, modern web development, and digital marketing solutions. Protecting businesses and building scalable applications with cutting-edge technologies.",
+    "description": "Site meta description for SEO",
+    "updatedAt": "2024-01-01T00:00:00Z"
+  },
+  {
+    "id": "3",
+    "key": "contact_email",
+    "value": "contact@muhammadirshad.com",
+    "description": "Primary contact email address",
+    "updatedAt": "2024-01-01T00:00:00Z"
+  },
+  {
+    "id": "4",
+    "key": "phone_number",
+    "value": "+1 (555) 123-4567",
+    "description": "Contact phone number",
+    "updatedAt": "2024-01-01T00:00:00Z"
+  },
+  {
+    "id": "5",
+    "key": "location",
+    "value": "Available Worldwide (Remote)",
+    "description": "Business location/service area",
+    "updatedAt": "2024-01-01T00:00:00Z"
+  },
+  {
+    "id": "6",
+    "key": "linkedin_url",
+    "value": "https://linkedin.com/in/muhammadirshad",
+    "description": "LinkedIn profile URL",
+    "updatedAt": "2024-01-01T00:00:00Z"
+  },
+  {
+    "id": "7",
+    "key": "github_url",
+    "value": "https://github.com/muhammadirshad",
+    "description": "GitHub profile URL",
+    "updatedAt": "2024-01-01T00:00:00Z"
+  },
+  {
+    "id": "8",
+    "key": "twitter_url",
+    "value": "https://twitter.com/muhammadirshad",
+    "description": "Twitter profile URL",
+    "updatedAt": "2024-01-01T00:00:00Z"
+  }
+]

@@ -1,0 +1,57 @@
+[
+  {
+    "id": "1",
+    "name": "Sarah Johnson",
+    "position": "CTO",
+    "company": "TechStart Inc.",
+    "content": "Muhammad's security audit uncovered critical vulnerabilities we didn't know existed. His detailed report and remediation guidance helped us secure our platform and gain customer trust. Exceptional expertise!",
+    "imageSrc": "/attached_assets/generated_images/Professional_portfolio_headshot_42eb62b4.png",
+    "rating": 5,
+    "published": true,
+    "createdAt": "2024-01-20T00:00:00Z"
+  },
+  {
+    "id": "2",
+    "name": "Michael Chen",
+    "position": "Marketing Director",
+    "company": "Growth Solutions",
+    "content": "The SEO strategy Muhammad implemented increased our organic traffic by 340% in just 6 months. His data-driven approach and regular reporting kept us informed throughout the process.",
+    "imageSrc": null,
+    "rating": 5,
+    "published": true,
+    "createdAt": "2024-01-18T00:00:00Z"
+  },
+  {
+    "id": "3",
+    "name": "Emily Rodriguez",
+    "position": "Founder",
+    "company": "E-commerce Plus",
+    "content": "Our new website built by Muhammad exceeded all expectations. The modern design, fast performance, and seamless user experience resulted in a 45% increase in conversions. Highly recommended!",
+    "imageSrc": null,
+    "rating": 5,
+    "published": true,
+    "createdAt": "2024-01-15T00:00:00Z"
+  },
+  {
+    "id": "4",
+    "name": "David Kim",
+    "position": "Operations Manager",
+    "company": "AutoFlow Systems",
+    "content": "The marketing automation workflows Muhammad set up have saved us countless hours while improving our lead nurturing. Our conversion rates increased by 60% since implementation.",
+    "imageSrc": null,
+    "rating": 5,
+    "published": true,
+    "createdAt": "2024-01-12T00:00:00Z"
+  },
+  {
+    "id": "5",
+    "name": "Lisa Thompson",
+    "position": "Brand Manager",
+    "company": "Creative Agency Co.",
+    "content": "Muhammad's copywriting transformed our marketing materials. The new website copy and email campaigns he wrote increased our engagement rates by 85% and generated 2x more qualified leads.",
+    "imageSrc": null,
+    "rating": 5,
+    "published": true,
+    "createdAt": "2024-01-10T00:00:00Z"
+  }
+]

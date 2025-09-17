@@ -1,0 +1,67 @@
+[
+  {
+    "id": "1",
+    "title": "Web Security",
+    "slug": "web-security",
+    "description": "Comprehensive web application security auditing, penetration testing, and vulnerability assessment services to protect your business from cyber threats.",
+    "shortDescription": "Advanced security auditing and penetration testing for web applications",
+    "imageSrc": "/attached_assets/generated_images/Web_security_illustration_dd7c81da.png",
+    "icon": "Shield",
+    "order": 1,
+    "published": true,
+    "createdAt": "2024-01-01T00:00:00Z",
+    "updatedAt": "2024-01-01T00:00:00Z"
+  },
+  {
+    "id": "2",
+    "title": "Web Development",
+    "slug": "web-development",
+    "description": "Full-stack web development services using modern technologies like React, TypeScript, Node.js, and cloud platforms for scalable applications.",
+    "shortDescription": "Modern full-stack web development with cutting-edge technologies",
+    "imageSrc": "/attached_assets/generated_images/Web_development_illustration_a68ada74.png",
+    "icon": "Code",
+    "order": 2,
+    "published": true,
+    "createdAt": "2024-01-01T00:00:00Z",
+    "updatedAt": "2024-01-01T00:00:00Z"
+  },
+  {
+    "id": "3",
+    "title": "SEO Optimization",
+    "slug": "seo-optimization",
+    "description": "Data-driven SEO strategies to improve search engine rankings, increase organic traffic, and boost online visibility for sustainable growth.",
+    "shortDescription": "Strategic SEO optimization for better search rankings and traffic",
+    "imageSrc": null,
+    "icon": "TrendingUp",
+    "order": 3,
+    "published": true,
+    "createdAt": "2024-01-01T00:00:00Z",
+    "updatedAt": "2024-01-01T00:00:00Z"
+  },
+  {
+    "id": "4",
+    "title": "Marketing Automation",
+    "slug": "marketing-automation",
+    "description": "Automated marketing workflows, email campaigns, and customer journey optimization to increase conversions and customer retention.",
+    "shortDescription": "Intelligent marketing automation for higher conversions",
+    "imageSrc": null,
+    "icon": "Zap",
+    "order": 4,
+    "published": true,
+    "createdAt": "2024-01-01T00:00:00Z",
+    "updatedAt": "2024-01-01T00:00:00Z"
+  },
+  {
+    "id": "5",
+    "title": "Copywriting",
+    "slug": "copywriting",
+    "description": "Persuasive copywriting services for websites, marketing materials, and conversion optimization to drive engagement and sales.",
+    "shortDescription": "Compelling copywriting that converts visitors into customers",
+    "imageSrc": null,
+    "icon": "PenTool",
+    "order": 5,
+    "published": true,
+    "createdAt": "2024-01-01T00:00:00Z",
+    "updatedAt": "2024-01-01T00:00:00Z"
+  }
+]
