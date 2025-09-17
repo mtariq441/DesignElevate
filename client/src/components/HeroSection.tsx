@@ -1,18 +1,10 @@
 import { ArrowRight, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Link } from "wouter";
 import heroBackgroundUrl from "@assets/generated_images/Premium_hero_background_80d42764.png";
 import profileImageUrl from "@assets/image_1758126414974.png";
 
 export default function HeroSection() {
-  const handleExploreWork = () => {
-    console.log('Navigate to portfolio/expertise');
-    // TODO: Navigate to expertise section
-  };
-
-  const handleHireMe = () => {
-    console.log('Navigate to contact form');
-    // TODO: Navigate to contact page
-  };
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
@@ -49,24 +41,28 @@ export default function HeroSection() {
 
             <div className="flex flex-col sm:flex-row gap-6 justify-center lg:justify-start">
               <Button 
+                asChild
                 size="lg" 
                 className="bg-gradient-to-r from-neon-cyan to-neon-blue text-background hover:from-neon-cyan/90 hover:to-neon-blue/90 px-8 py-4 text-lg font-semibold shadow-xl hover:shadow-neon-cyan/30 transform hover:scale-105 transition-all duration-300 neon-border"
-                onClick={handleExploreWork}
                 data-testid="button-explore-work"
               >
-                Explore My Work
-                <ArrowRight className="ml-2 h-5 w-5" />
+                <Link href="/expertise">
+                  Explore My Work
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Link>
               </Button>
               
               <Button 
+                asChild
                 size="lg" 
                 variant="outline" 
                 className="glass px-8 py-4 text-lg border-neon-purple/40 text-neon-purple hover:bg-neon-purple/10 backdrop-blur-sm hover:border-neon-purple/60 transition-all duration-300 hover:scale-105"
-                onClick={handleHireMe}
                 data-testid="button-hire-me"
               >
-                Hire Me
-                <Download className="ml-2 h-5 w-5" />
+                <Link href="/contact">
+                  Hire Me
+                  <Download className="ml-2 h-5 w-5" />
+                </Link>
               </Button>
             </div>
 

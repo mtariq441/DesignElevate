@@ -96,6 +96,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         : await storage.getAllBlogs();
       res.json(blogs);
     } catch (error) {
+      console.error("GET /api/blogs failed", error);
       res.status(500).json({ error: "Failed to fetch blogs" });
     }
   });
@@ -168,6 +169,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         : await storage.getAllServices();
       res.json(services);
     } catch (error) {
+      console.error("GET /api/services failed", error);
       res.status(500).json({ error: "Failed to fetch services" });
     }
   });

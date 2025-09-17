@@ -29,6 +29,8 @@ const contactSchema = z.object({
   subject: z.string().min(5, "Subject must be at least 5 characters"),
   service: z.string().min(1, "Please select a service"),
   message: z.string().min(10, "Message must be at least 10 characters"),
+  company: z.string().optional(),
+  budget: z.string().optional(),
 });
 
 type ContactForm = z.infer<typeof contactSchema>;
@@ -44,20 +46,46 @@ export default function ContactForm() {
       subject: "",
       service: "",
       message: "",
+      company: "",
+      budget: "",
     },
   });
 
   const onSubmit = async (values: ContactForm) => {
     setIsSubmitting(true);
-    console.log("Form submitted with values:", values);
     
-    // TODO: Implement actual form submission to backend
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    console.log("Contact form submitted successfully!");
-    form.reset();
-    setIsSubmitting(false);
+    try {
+      const response = await fetch('/api/contact-submissions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: values.name,
+          email: values.email,
+          company: values.company || "",
+          service: values.service,
+          budget: values.budget || "",
+          message: `Subject: ${values.subject}\n\n${values.message}`,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to submit contact form');
+      }
+
+      // Success - reset form
+      form.reset();
+      
+      // TODO: Show success message to user
+      console.log("Contact form submitted successfully!");
+      
+    } catch (error) {
+      console.error('Error submitting contact form:', error);
+      // TODO: Show error message to user
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
