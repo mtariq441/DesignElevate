@@ -1,6 +1,6 @@
 import { Award, Users, Coffee, Target } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
-import profileImageUrl from "@assets/generated_images/Professional_portfolio_headshot_42eb62b4.png";
+import profileImageUrl from "@assets/image_1758126414974.png";
 
 export default function WhoAmI() {
   const milestones = [

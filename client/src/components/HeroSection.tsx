@@ -1,7 +1,7 @@
 import { ArrowRight, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import heroBackgroundUrl from "@assets/generated_images/Premium_hero_background_80d42764.png";
-import profileImageUrl from "@assets/generated_images/Professional_portfolio_headshot_42eb62b4.png";
+import profileImageUrl from "@assets/image_1758126414974.png";
 
 export default function HeroSection() {
   const handleExploreWork = () => {
