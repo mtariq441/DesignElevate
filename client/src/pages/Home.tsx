@@ -192,22 +192,44 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-24 bg-primary text-primary-foreground">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            Let's Build Something Great Together
+      {/* Premium CTA Section with Dark Theme */}
+      <section className="relative py-32 overflow-hidden">
+        {/* Premium Dark Background with Animated Gradients */}
+        <div className="absolute inset-0 bg-gradient-to-br from-background via-background/95 to-card animate-gradient-shift" />
+        
+        {/* Animated Background Effects */}
+        <div className="absolute inset-0">
+          <div className="absolute top-10 left-10 w-80 h-80 bg-neon-cyan/5 rounded-full blur-3xl animate-float" />
+          <div className="absolute bottom-10 right-10 w-96 h-96 bg-neon-purple/5 rounded-full blur-3xl animate-float" style={{ animationDelay: '1s' }} />
+          <div className="absolute top-1/2 left-1/4 w-64 h-64 bg-neon-blue/5 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }} />
+          <div className="absolute bottom-1/4 left-3/4 w-72 h-72 bg-neon-cyan/3 rounded-full blur-3xl animate-float" style={{ animationDelay: '3s' }} />
+        </div>
+
+        <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          {/* Floating Premium Badge */}
+          <div className="mb-8 flex justify-center">
+            <span className="inline-block px-8 py-4 glass text-neon-cyan font-semibold rounded-full text-sm backdrop-blur-sm border border-neon-cyan/30 neon-border shadow-lg animate-float">
+              Ready to Transform Your Business?
+            </span>
+          </div>
+
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-8 leading-tight animate-fade-in">
+            Let's Build Something 
+            <span className="text-transparent bg-gradient-to-r from-neon-cyan to-neon-purple bg-clip-text"> 
+              Great Together
+            </span>
           </h2>
-          <p className="text-xl mb-8 opacity-90 leading-relaxed">
+          
+          <p className="text-xl md:text-2xl text-white/90 mb-12 leading-relaxed max-w-3xl mx-auto animate-fade-in" style={{ animationDelay: '0.2s' }}>
             Ready to transform your digital presence? Let's discuss how I can help secure, 
             develop, and optimize your online business for maximum impact.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+
+          <div className="flex flex-col sm:flex-row gap-6 justify-center animate-fade-in" style={{ animationDelay: '0.4s' }}>
             <Link href="/contact">
               <Button 
                 size="lg" 
-                variant="secondary"
-                className="px-8 py-3 text-lg"
+                className="bg-gradient-to-r from-neon-cyan to-neon-blue text-background hover:from-neon-cyan/90 hover:to-neon-blue/90 px-10 py-4 text-lg font-semibold shadow-xl hover:shadow-neon-cyan/30 transform hover:scale-105 transition-all duration-300 neon-border"
                 data-testid="button-get-started"
               >
                 Get Started Today
@@ -218,13 +240,18 @@ export default function Home() {
               <Button 
                 size="lg" 
                 variant="outline" 
-                className="px-8 py-3 text-lg border-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/10"
+                className="glass px-10 py-4 text-lg border-neon-purple/40 text-neon-purple hover:bg-neon-purple/10 backdrop-blur-sm hover:border-neon-purple/60 transition-all duration-300 hover:scale-105"
                 data-testid="button-view-portfolio"
               >
                 View My Work
               </Button>
             </Link>
           </div>
+
+          {/* Premium Floating Elements */}
+          <div className="absolute top-16 left-16 w-20 h-20 bg-gradient-to-br from-neon-purple/20 to-neon-blue/20 rounded-full backdrop-blur-sm border border-neon-purple/30 float animate-neon-glow hidden md:block" />
+          <div className="absolute bottom-16 right-16 w-24 h-24 bg-gradient-to-br from-neon-cyan/15 to-neon-purple/15 rounded-full backdrop-blur-sm border border-neon-cyan/30 float hidden md:block" style={{ animationDelay: '1s' }} />
+          <div className="absolute top-1/3 right-8 w-16 h-16 bg-neon-blue/15 rounded-full backdrop-blur-sm border border-neon-blue/30 float hidden lg:block" style={{ animationDelay: '2s' }} />
         </div>
       </section>
     </div>
