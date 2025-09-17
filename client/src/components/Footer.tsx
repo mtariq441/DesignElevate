@@ -27,16 +27,20 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-card border-t border-border">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <footer className="glass border-t border-neon-cyan/20 backdrop-blur-xl relative overflow-hidden">
+      {/* Premium Background Effects */}
+      <div className="absolute inset-0 bg-gradient-to-br from-card/50 via-card/30 to-background/50" />
+      <div className="absolute top-0 right-0 w-96 h-96 bg-neon-purple/5 rounded-full blur-3xl" />
+      <div className="absolute bottom-0 left-0 w-80 h-80 bg-neon-cyan/5 rounded-full blur-3xl" />
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid lg:grid-cols-4 gap-8">
           {/* Brand & Description */}
           <div className="lg:col-span-1">
             <div className="flex items-center space-x-3 mb-4">
-              <div className="w-10 h-10 bg-accent rounded-lg flex items-center justify-center">
-                <span className="text-accent-foreground font-bold text-lg">MK</span>
+              <div className="w-12 h-12 bg-gradient-to-br from-neon-cyan to-neon-purple rounded-xl flex items-center justify-center neon-border shadow-lg float">
+                <span className="text-background font-bold text-lg">MK</span>
               </div>
-              <span className="font-semibold text-card-foreground">Muhammad Irshad Khan</span>
+              <span className="font-semibold text-white text-xl">Muhammad Irshad Khan</span>
             </div>
             <p className="text-muted-foreground text-sm leading-relaxed mb-6">
               Transforming digital landscapes through cutting-edge security solutions, 
@@ -86,7 +90,7 @@ export default function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h3 className="font-semibold text-card-foreground mb-4">Quick Links</h3>
+            <h3 className="font-semibold text-white mb-6 text-lg">Quick Links</h3>
             <ul className="space-y-3">
               {quickLinks.map((link) => (
                 <li key={link.href}>
@@ -106,7 +110,7 @@ export default function Footer() {
 
           {/* Expertise */}
           <div>
-            <h3 className="font-semibold text-card-foreground mb-4">Expertise</h3>
+            <h3 className="font-semibold text-white mb-6 text-lg">Expertise</h3>
             <ul className="space-y-3">
               {expertiseLinks.map((link) => (
                 <li key={link.href}>
@@ -126,7 +130,7 @@ export default function Footer() {
 
           {/* Contact Info */}
           <div>
-            <h3 className="font-semibold text-card-foreground mb-4">Get In Touch</h3>
+            <h3 className="font-semibold text-white mb-6 text-lg">Get In Touch</h3>
             <div className="space-y-3 text-sm text-muted-foreground">
               <p data-testid="footer-email">
                 <strong>Email:</strong><br />

@@ -81,11 +81,17 @@ export default {
           busy: "rgb(239 68 68)",
           offline: "rgb(156 163 175)",
         },
+        neon: {
+          cyan: "hsl(var(--neon-cyan) / <alpha-value>)",
+          purple: "hsl(var(--neon-purple) / <alpha-value>)",
+          blue: "hsl(var(--neon-blue) / <alpha-value>)",
+          pink: "hsl(var(--neon-pink) / <alpha-value>)",
+        },
       },
       fontFamily: {
-        sans: ["var(--font-sans)"],
-        serif: ["var(--font-serif)"],
-        mono: ["var(--font-mono)"],
+        sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'sans-serif'],
+        serif: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'sans-serif'],
+        mono: ['JetBrains Mono', 'Fira Code', 'monospace'],
       },
       keyframes: {
         "accordion-down": {
@@ -96,10 +102,38 @@ export default {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        "neon-glow": {
+          "0%, 100%": {
+            boxShadow: "0 0 5px hsl(var(--neon-cyan) / 0.5), 0 0 10px hsl(var(--neon-cyan) / 0.3)",
+          },
+          "50%": {
+            boxShadow: "0 0 10px hsl(var(--neon-cyan) / 0.6), 0 0 20px hsl(var(--neon-cyan) / 0.4)",
+          },
+        },
+        "neon-pulse": {
+          "0%, 100%": {
+            borderColor: "hsl(var(--neon-cyan) / 0.3)",
+          },
+          "50%": {
+            borderColor: "hsl(var(--neon-cyan) / 0.6)",
+          },
+        },
+        "gradient-shift": {
+          "0%, 100%": { backgroundPosition: "0% 50%" },
+          "50%": { backgroundPosition: "100% 50%" },
+        },
+        "float": {
+          "0%, 100%": { transform: "translateY(0px)" },
+          "50%": { transform: "translateY(-10px)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "neon-glow": "neon-glow 2s ease-in-out infinite",
+        "neon-pulse": "neon-pulse 3s ease-in-out infinite",
+        "gradient-shift": "gradient-shift 4s ease-in-out infinite",
+        "float": "float 3s ease-in-out infinite",
       },
     },
   },

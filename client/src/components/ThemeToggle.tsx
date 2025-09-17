@@ -3,13 +3,12 @@ import { Moon, Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export default function ThemeToggle() {
-  const [theme, setTheme] = useState<"light" | "dark">("light");
+  const [theme, setTheme] = useState<"light" | "dark">("dark");
 
   useEffect(() => {
-    // Check for saved theme preference or default to light
+    // Default to dark mode with premium theme
     const savedTheme = localStorage.getItem("theme") as "light" | "dark" | null;
-    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-    const initialTheme = savedTheme || (prefersDark ? "dark" : "light");
+    const initialTheme = savedTheme || "dark"; // Default to dark mode
     
     setTheme(initialTheme);
     updateTheme(initialTheme);
@@ -32,13 +31,13 @@ export default function ThemeToggle() {
       variant="ghost"
       size="icon"
       onClick={toggleTheme}
-      className="w-9 h-9"
+      className="w-12 h-12 glass neon-border hover:bg-neon-cyan/10 transition-all duration-300 hover:scale-110 group"
       data-testid="button-theme-toggle"
     >
       {theme === "light" ? (
-        <Moon className="h-4 w-4" />
+        <Moon className="h-5 w-5 text-neon-cyan group-hover:text-neon-purple transition-colors duration-300" />
       ) : (
-        <Sun className="h-4 w-4" />
+        <Sun className="h-5 w-5 text-neon-cyan group-hover:text-neon-purple transition-colors duration-300 animate-pulse" />
       )}
     </Button>
   );
