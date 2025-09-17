@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { ArrowRight, Shield, Code, TrendingUp, Zap, PenTool } from "lucide-react";
 import { Link } from "wouter";
+import { useQuery } from "@tanstack/react-query";
 import HeroSection from "@/components/HeroSection";
 import ExpertiseCard from "@/components/ExpertiseCard";
 import BlogCard from "@/components/BlogCard";
@@ -8,104 +9,102 @@ import { Button } from "@/components/ui/button";
 import { updatePageSEO, defaultSEO } from "@/utils/seo";
 import webSecurityImg from "@assets/generated_images/Web_security_illustration_dd7c81da.png";
 import webDevImg from "@assets/generated_images/Web_development_illustration_a68ada74.png";
+import type { Blog, Service } from "@shared/schema";
 
 export default function Home() {
   useEffect(() => {
     updatePageSEO(defaultSEO);
   }, []);
 
-  // TODO: Remove mock data when implementing real content management
-  const expertiseItems = [
-    {
-      title: "Web Security Specialist",
-      description: "Protecting your digital assets with advanced security measures, vulnerability assessments, and comprehensive penetration testing.",
-      icon: Shield,
-      imageSrc: webSecurityImg,
-      href: "/expertise/web-security",
-      features: [
-        "Penetration Testing & Vulnerability Assessment",
-        "Security Auditing & Compliance Management", 
-        "Incident Response & Threat Analysis",
-        "Secure Code Review & Architecture"
-      ]
-    },
-    {
-      title: "Web Development Specialist",
-      description: "Building modern, scalable web applications with cutting-edge technologies and best practices for optimal performance.",
-      icon: Code,
-      imageSrc: webDevImg,
-      href: "/expertise/web-development",
-      features: [
-        "Full-Stack Development (React, Node.js)",
-        "API Development & Integration",
-        "Database Design & Optimization",
-        "Performance Tuning & Scaling"
-      ]
-    },
-    {
-      title: "SEO Specialist",
-      description: "Driving organic traffic and improving search rankings through strategic SEO optimization and content marketing.",
-      icon: TrendingUp,
-      href: "/expertise/seo",
-      features: [
-        "Technical SEO & Site Optimization",
-        "Keyword Research & Content Strategy",
-        "Local SEO & Google My Business",
-        "Analytics & Performance Tracking"
-      ]
-    },
-    {
-      title: "Marketing Automation",
-      description: "Streamlining your marketing processes with intelligent automation workflows and lead nurturing systems.",
-      icon: Zap,
-      href: "/expertise/marketing-automation",
-      features: [
-        "Email Marketing Campaigns",
-        "Lead Scoring & Nurturing",
-        "CRM Integration & Management",
-        "Conversion Rate Optimization"
-      ]
-    },
-    {
-      title: "Copywriting Specialist",
-      description: "Creating compelling, conversion-focused copy that resonates with your audience and drives business results.",
-      icon: PenTool,
-      href: "/expertise/copywriting",
-      features: [
-        "Website Copy & Landing Pages",
-        "Email Marketing Content",
-        "Sales Copy & Product Descriptions",
-        "Blog Content & SEO Writing"
-      ]
-    }
-  ];
+  // Fetch published services for expertise section
+  const { 
+    data: services = [], 
+    isLoading: servicesLoading, 
+    error: servicesError,
+    refetch: refetchServices
+  } = useQuery<Service[]>({
+    queryKey: ['/api/services?published=true'],
+    select: (data) => data.slice(0, 5) // Limit to 5 for homepage
+  });
 
-  const latestBlogs = [
-    {
-      title: "Advanced Web Security: Protecting Your Digital Assets in 2025",
-      excerpt: "Explore the latest security threats and learn how to implement robust protection strategies for your web applications and digital infrastructure.",
-      category: "Web Security",
-      date: "Dec 15, 2024",
-      readTime: "8 min read",
-      href: "/blog/advanced-web-security-2025"
-    },
-    {
-      title: "AI-Powered SEO: The Future of Search Optimization",
-      excerpt: "Discover how artificial intelligence is revolutionizing SEO strategies and learn to leverage AI tools for better search rankings.",
-      category: "AI SEO",
-      date: "Dec 12, 2024",
-      readTime: "6 min read",
-      href: "/blog/ai-powered-seo-future"
-    },
-    {
-      title: "Marketing Automation: Scaling Your Business Growth",
-      excerpt: "Learn how to implement effective marketing automation strategies that drive engagement, nurture leads, and accelerate business growth.",
-      category: "Marketing Automation",
-      date: "Dec 8, 2024",
-      readTime: "10 min read",
-      href: "/blog/marketing-automation-scaling-growth"
-    }
-  ];
+  // Fetch latest published blogs
+  const { 
+    data: blogs = [], 
+    isLoading: blogsLoading, 
+    error: blogsError,
+    refetch: refetchBlogs
+  } = useQuery<Blog[]>({
+    queryKey: ['/api/blogs?published=true'],
+    select: (data) => data.slice(0, 3) // Limit to 3 for homepage
+  });
+
+  // Icon mapping for services
+  const iconMap: Record<string, any> = {
+    'web-security': Shield,
+    'web-development': Code,
+    'seo': TrendingUp,
+    'marketing-automation': Zap,
+    'copywriting': PenTool
+  };
+
+  // Features mapping for services (since not in database yet)
+  const featuresMap: Record<string, string[]> = {
+    'web-security': [
+      "Penetration Testing & Vulnerability Assessment",
+      "Security Auditing & Compliance Management", 
+      "Incident Response & Threat Analysis",
+      "Secure Code Review & Architecture"
+    ],
+    'web-development': [
+      "Full-Stack Development (React, Node.js)",
+      "API Development & Integration",
+      "Database Design & Optimization",
+      "Performance Tuning & Scaling"
+    ],
+    'seo': [
+      "Technical SEO & Site Optimization",
+      "Keyword Research & Content Strategy",
+      "Local SEO & Google My Business",
+      "Analytics & Performance Tracking"
+    ],
+    'marketing-automation': [
+      "Email Marketing Campaigns",
+      "Lead Scoring & Nurturing",
+      "CRM Integration & Management",
+      "Conversion Rate Optimization"
+    ],
+    'copywriting': [
+      "Website Copy & Landing Pages",
+      "Email Marketing Content",
+      "Sales Copy & Product Descriptions",
+      "Blog Content & SEO Writing"
+    ]
+  };
+
+  // Transform services data for ExpertiseCard component
+  const expertiseItems = services.map(service => ({
+    title: service.title,
+    description: service.description,
+    icon: iconMap[service.slug] || Code,
+    imageSrc: service.slug === 'web-security' ? webSecurityImg : 
+              service.slug === 'web-development' ? webDevImg : undefined,
+    href: `/expertise/${service.slug}`,
+    features: featuresMap[service.slug] || []
+  }));
+
+  // Transform blogs data for BlogCard component
+  const latestBlogs = blogs.map(blog => ({
+    title: blog.title,
+    excerpt: blog.excerpt,
+    category: blog.category,
+    date: blog.createdAt ? new Date(blog.createdAt).toLocaleDateString('en-US', { 
+      year: 'numeric', 
+      month: 'short', 
+      day: 'numeric' 
+    }) : 'Recent',
+    readTime: `${blog.readTime || '5'} min read`,
+    href: `/blog/${blog.slug}`
+  }));
 
 
   return (
@@ -132,9 +131,38 @@ export default function Home() {
 
           {/* Expertise Grid */}
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-            {expertiseItems.map((item, index) => (
-              <ExpertiseCard key={index} {...item} />
-            ))}
+            {servicesLoading ? (
+              // Loading skeleton
+              Array.from({ length: 5 }).map((_, index) => (
+                <div key={index} className="animate-pulse">
+                  <div className="bg-muted/50 h-64 rounded-lg mb-4"></div>
+                  <div className="bg-muted/50 h-4 rounded mb-2"></div>
+                  <div className="bg-muted/50 h-3 rounded w-3/4"></div>
+                </div>
+              ))
+            ) : servicesError ? (
+              <div className="col-span-full text-center py-12">
+                <div className="bg-destructive/10 border border-destructive/20 rounded-lg p-6">
+                  <h3 className="text-lg font-semibold text-destructive mb-2">
+                    Failed to load services
+                  </h3>
+                  <p className="text-muted-foreground mb-4">
+                    There was an error loading the services. Please try again.
+                  </p>
+                  <Button onClick={() => refetchServices()} variant="outline" data-testid="button-retry-services">
+                    Try Again
+                  </Button>
+                </div>
+              </div>
+            ) : expertiseItems.length > 0 ? (
+              expertiseItems.map((item, index) => (
+                <ExpertiseCard key={index} {...item} />
+              ))
+            ) : (
+              <div className="col-span-full text-center py-12">
+                <p className="text-muted-foreground">No services available at the moment.</p>
+              </div>
+            )}
           </div>
 
           {/* View All Button */}
@@ -171,9 +199,38 @@ export default function Home() {
 
           {/* Blog Grid */}
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-            {latestBlogs.map((blog, index) => (
-              <BlogCard key={index} {...blog} />
-            ))}
+            {blogsLoading ? (
+              // Loading skeleton
+              Array.from({ length: 3 }).map((_, index) => (
+                <div key={index} className="animate-pulse">
+                  <div className="bg-muted/50 h-48 rounded-lg mb-4"></div>
+                  <div className="bg-muted/50 h-4 rounded mb-2"></div>
+                  <div className="bg-muted/50 h-3 rounded w-2/3"></div>
+                </div>
+              ))
+            ) : blogsError ? (
+              <div className="col-span-full text-center py-12">
+                <div className="bg-destructive/10 border border-destructive/20 rounded-lg p-6">
+                  <h3 className="text-lg font-semibold text-destructive mb-2">
+                    Failed to load blog posts
+                  </h3>
+                  <p className="text-muted-foreground mb-4">
+                    There was an error loading the latest articles. Please try again.
+                  </p>
+                  <Button onClick={() => refetchBlogs()} variant="outline" data-testid="button-retry-blogs">
+                    Try Again
+                  </Button>
+                </div>
+              </div>
+            ) : latestBlogs.length > 0 ? (
+              latestBlogs.map((blog, index) => (
+                <BlogCard key={index} {...blog} />
+              ))
+            ) : (
+              <div className="col-span-full text-center py-12">
+                <p className="text-muted-foreground">No blog posts available at the moment.</p>
+              </div>
+            )}
           </div>
 
           {/* View All Button */}

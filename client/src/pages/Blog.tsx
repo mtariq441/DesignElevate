@@ -1,158 +1,67 @@
 import { useState } from "react";
 import { Search, Filter, Calendar, Clock, ArrowRight, Tag } from "lucide-react";
 import { Link } from "wouter";
+import { useQuery } from "@tanstack/react-query";
 import BlogCard from "@/components/BlogCard";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import type { Blog } from "@shared/schema";
 
 export default function Blog() {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
 
-  // TODO: Replace with real blog data from CMS
+  // Fetch all published blogs
+  const { 
+    data: blogPosts = [], 
+    isLoading: blogsLoading, 
+    error: blogsError,
+    refetch: refetchBlogs
+  } = useQuery<Blog[]>({
+    queryKey: ['/api/blogs?published=true']
+  });
+
+  // Extract unique categories from blog posts
   const categories = [
     "All",
-    "Web Security", 
-    "Web Development",
-    "SEO",
-    "AI SEO",
-    "Marketing Automation",
-    "Copywriting & Branding",
-    "Business Growth"
+    ...Array.from(new Set(blogPosts.map(post => post.category))).sort()
   ];
 
-  const blogPosts = [
-    {
-      title: "Advanced Web Security: Protecting Your Digital Assets in 2025",
-      excerpt: "Explore the latest security threats and learn how to implement robust protection strategies for your web applications and digital infrastructure. From zero-trust architecture to AI-powered threat detection.",
-      category: "Web Security",
-      date: "Dec 15, 2024",
-      readTime: "8 min read",
-      href: "/blog/advanced-web-security-2025",
-      featured: true,
-      tags: ["Security", "Penetration Testing", "Compliance"]
-    },
-    {
-      title: "AI-Powered SEO: The Future of Search Optimization",
-      excerpt: "Discover how artificial intelligence is revolutionizing SEO strategies and learn to leverage AI tools for better search rankings, content optimization, and user experience enhancement.",
-      category: "AI SEO",
-      date: "Dec 12, 2024",
-      readTime: "6 min read",
-      href: "/blog/ai-powered-seo-future",
-      featured: true,
-      tags: ["AI", "SEO", "Content Strategy"]
-    },
-    {
-      title: "Marketing Automation: Scaling Your Business Growth",
-      excerpt: "Learn how to implement effective marketing automation strategies that drive engagement, nurture leads, and accelerate business growth through intelligent workflows and personalization.",
-      category: "Marketing Automation",
-      date: "Dec 8, 2024",
-      readTime: "10 min read",
-      href: "/blog/marketing-automation-scaling-growth",
-      featured: false,
-      tags: ["Automation", "Lead Generation", "CRM"]
-    },
-    {
-      title: "Building Secure React Applications: A Developer's Guide",
-      excerpt: "Comprehensive guide to implementing security best practices in React applications, including authentication, data validation, XSS prevention, and secure API communication.",
-      category: "Web Development",
-      date: "Dec 5, 2024",
-      readTime: "12 min read",
-      href: "/blog/secure-react-applications-guide",
-      featured: false,
-      tags: ["React", "Security", "Frontend"]
-    },
-    {
-      title: "Conversion Copywriting: Words That Actually Sell",
-      excerpt: "Master the art of persuasive copywriting with proven techniques that convert readers into customers. Learn psychological triggers, storytelling methods, and optimization strategies.",
-      category: "Copywriting & Branding",
-      date: "Dec 2, 2024",
-      readTime: "7 min read",
-      href: "/blog/conversion-copywriting-guide",
-      featured: false,
-      tags: ["Copywriting", "Conversion", "Psychology"]
-    },
-    {
-      title: "Technical SEO Audit: Complete Checklist for 2025",
-      excerpt: "Step-by-step technical SEO audit checklist covering Core Web Vitals, crawlability, indexability, schema markup, and performance optimization for better search rankings.",
-      category: "SEO",
-      date: "Nov 28, 2024",
-      readTime: "15 min read",
-      href: "/blog/technical-seo-audit-checklist-2025",
-      featured: false,
-      tags: ["Technical SEO", "Audit", "Performance"]
-    },
-    {
-      title: "Penetration Testing Methodology: From Planning to Reporting",
-      excerpt: "Complete guide to penetration testing methodology including reconnaissance, vulnerability assessment, exploitation techniques, and comprehensive reporting best practices.",
-      category: "Web Security",
-      date: "Nov 25, 2024",
-      readTime: "14 min read",
-      href: "/blog/penetration-testing-methodology",
-      featured: false,
-      tags: ["Pen Testing", "Methodology", "Security Audit"]
-    },
-    {
-      title: "Customer Journey Mapping for Marketing Automation",
-      excerpt: "Learn how to map effective customer journeys that guide prospects from awareness to advocacy through strategic touchpoints and automated engagement sequences.",
-      category: "Marketing Automation",
-      date: "Nov 22, 2024",
-      readTime: "9 min read",
-      href: "/blog/customer-journey-mapping-automation",
-      featured: false,
-      tags: ["Customer Journey", "Automation", "Strategy"]
-    },
-    {
-      title: "Modern Web Development Best Practices for 2025",
-      excerpt: "Stay current with the latest web development trends, tools, and best practices. From performance optimization to accessibility, security, and developer experience.",
-      category: "Web Development",
-      date: "Nov 18, 2024",
-      readTime: "11 min read",
-      href: "/blog/web-development-best-practices-2025",
-      featured: false,
-      tags: ["Best Practices", "Development", "Trends"]
-    },
-    {
-      title: "Building a Content Strategy That Drives Business Growth",
-      excerpt: "Comprehensive guide to creating content strategies that align with business objectives, engage target audiences, and drive measurable growth through strategic planning.",
-      category: "Business Growth",
-      date: "Nov 15, 2024",
-      readTime: "8 min read",
-      href: "/blog/content-strategy-business-growth",
-      featured: false,
-      tags: ["Content Strategy", "Growth", "Planning"]
-    }
-  ];
+  // Transform blog data for display with proper sorting and safe readTime
+  const transformedBlogPosts = blogPosts
+    .sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime())
+    .map(blog => ({
+      title: blog.title,
+      excerpt: blog.excerpt,
+      category: blog.category,
+      date: blog.createdAt ? new Date(blog.createdAt).toLocaleDateString('en-US', { 
+        year: 'numeric', 
+        month: 'short', 
+        day: 'numeric' 
+      }) : 'Recent',
+      readTime: `${blog.readTime || '5'} min read`,
+      href: `/blog/${blog.slug}`,
+      featured: false, // We could add a featured field to the database later
+      tags: [] // We could add a tags field to the database later
+    }));
 
-  const popularPosts = [
-    {
-      title: "Complete Guide to OWASP Top 10 Security Risks",
-      href: "/blog/owasp-top-10-guide",
-      category: "Web Security"
-    },
-    {
-      title: "Local SEO Optimization for Small Businesses",
-      href: "/blog/local-seo-optimization",
-      category: "SEO"
-    },
-    {
-      title: "Email Marketing Automation Best Practices",
-      href: "/blog/email-automation-best-practices",
-      category: "Marketing Automation"
-    }
-  ];
+  // Popular posts (first 3 published posts for now)
+  const popularPosts = transformedBlogPosts.slice(0, 3).map(post => ({
+    title: post.title,
+    href: post.href,
+    category: post.category
+  }));
 
-  const filteredPosts = blogPosts.filter(post => {
+  const filteredPosts = transformedBlogPosts.filter(post => {
     const matchesCategory = selectedCategory === "All" || post.category === selectedCategory;
     const matchesSearch = post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         post.excerpt.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         post.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
+                         post.excerpt.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesCategory && matchesSearch;
   });
 
-  const featuredPosts = blogPosts.filter(post => post.featured);
+  const featuredPosts = transformedBlogPosts.filter(post => post.featured);
 
   return (
     <div className="min-h-screen pt-16">
@@ -207,22 +116,22 @@ export default function Blog() {
         </div>
       </section>
 
-      {/* Featured Posts */}
-      {selectedCategory === "All" && !searchQuery && (
+      {/* Featured Posts - Show latest posts as featured for now */}
+      {selectedCategory === "All" && !searchQuery && transformedBlogPosts.length > 0 && (
         <section className="py-16 bg-muted/30">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center gap-3 mb-8">
               <Tag className="h-5 w-5 text-accent" />
-              <h2 className="text-2xl font-bold text-foreground">Featured Articles</h2>
+              <h2 className="text-2xl font-bold text-foreground">Latest Articles</h2>
             </div>
             
             <div className="grid lg:grid-cols-2 gap-8">
-              {featuredPosts.map((post, index) => (
+              {transformedBlogPosts.slice(0, 2).map((post, index) => (
                 <Card key={index} className="hover-elevate transition-all duration-300">
                   <CardContent className="p-8">
                     <div className="flex items-center gap-2 mb-4">
                       <Badge variant="secondary" className="bg-accent/10 text-accent">
-                        Featured
+                        Latest
                       </Badge>
                       <Badge variant="outline">
                         {post.category}
@@ -236,14 +145,6 @@ export default function Blog() {
                     <p className="text-muted-foreground mb-4 line-clamp-3 leading-relaxed">
                       {post.excerpt}
                     </p>
-
-                    <div className="flex flex-wrap gap-2 mb-4">
-                      {post.tags.map((tag, idx) => (
-                        <Badge key={idx} variant="secondary" className="text-xs">
-                          {tag}
-                        </Badge>
-                      ))}
-                    </div>
                     
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-4 text-sm text-muted-foreground">
@@ -292,12 +193,49 @@ export default function Blog() {
                 </div>
               </div>
 
-              {filteredPosts.length > 0 ? (
+              {blogsLoading ? (
+                // Loading skeleton
+                <div className="grid md:grid-cols-2 gap-8">
+                  {Array.from({ length: 6 }).map((_, index) => (
+                    <div key={index} className="animate-pulse">
+                      <div className="bg-muted/50 h-48 rounded-lg mb-4"></div>
+                      <div className="bg-muted/50 h-4 rounded mb-2"></div>
+                      <div className="bg-muted/50 h-3 rounded w-3/4 mb-2"></div>
+                      <div className="bg-muted/50 h-3 rounded w-1/2"></div>
+                    </div>
+                  ))}
+                </div>
+              ) : blogsError ? (
+                <div className="col-span-full">
+                  <div className="bg-destructive/10 border border-destructive/20 rounded-lg p-6 text-center">
+                    <h3 className="text-lg font-semibold text-destructive mb-2">
+                      Failed to load articles
+                    </h3>
+                    <p className="text-muted-foreground mb-4">
+                      There was an error loading the blog posts. Please try again.
+                    </p>
+                    <Button onClick={() => refetchBlogs()} variant="outline" data-testid="button-retry-blogs">
+                      Try Again
+                    </Button>
+                  </div>
+                </div>
+              ) : filteredPosts.length > 0 ? (
                 <div className="grid md:grid-cols-2 gap-8">
                   {filteredPosts.map((post, index) => (
                     <BlogCard key={index} {...post} />
                   ))}
                 </div>
+              ) : blogPosts.length === 0 ? (
+                <Card>
+                  <CardContent className="p-12 text-center">
+                    <h3 className="text-lg font-semibold text-card-foreground mb-2">
+                      No articles available
+                    </h3>
+                    <p className="text-muted-foreground">
+                      Check back later for new content.
+                    </p>
+                  </CardContent>
+                </Card>
               ) : (
                 <Card>
                   <CardContent className="p-12 text-center">
