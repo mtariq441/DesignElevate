@@ -1,11 +1,19 @@
 import type { Express, Request, Response } from "express";
 import { createServer, type Server } from "http";
+import bcrypt from "bcrypt";
 import { storage } from "./storage";
 import { 
   insertBlogSchema, insertServiceSchema, insertTestimonialSchema, 
   insertProjectSchema, insertSiteSettingSchema, insertContactSubmissionSchema,
   insertUserSchema
 } from "@shared/schema";
+import { z } from "zod";
+
+// Login validation schema
+const loginSchema = z.object({
+  username: z.string().min(1, "Username is required"),
+  password: z.string().min(1, "Password is required"),
+});
 
 // Extend Express Request type to include session
 declare global {
@@ -29,22 +37,35 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Authentication routes
   app.post("/api/auth/login", async (req, res) => {
     try {
-      const { username, password } = req.body;
+      // Validate request body
+      const validatedData = loginSchema.parse(req.body);
+      const { username, password } = validatedData;
+      
       const user = await storage.getUserByUsername(username);
       
-      if (!user || user.password !== password) {
+      if (!user) {
+        return res.status(401).json({ error: "Invalid credentials" });
+      }
+      
+      // Compare hashed password
+      const isValidPassword = await bcrypt.compare(password, user.password);
+      
+      if (!isValidPassword) {
         return res.status(401).json({ error: "Invalid credentials" });
       }
       
       req.session.user = { id: user.id, username: user.username };
       res.json({ success: true, user: { id: user.id, username: user.username } });
     } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ error: "Invalid request data" });
+      }
       res.status(500).json({ error: "Internal server error" });
     }
   });
 
   app.post("/api/auth/logout", (req, res) => {
-    req.session.destroy((err) => {
+    req.session.destroy((err: any) => {
       if (err) {
         return res.status(500).json({ error: "Could not log out" });
       }
@@ -61,11 +82,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Blog routes
+  // Blog routes - secure by default, only show published content to unauthenticated users
   app.get("/api/blogs", async (req, res) => {
     try {
       const { published } = req.query;
-      const blogs = published === 'true' 
+      const isAuthenticated = req.session?.user;
+      
+      // Default to published content for unauthenticated users
+      const showPublishedOnly = !isAuthenticated || published === 'true';
+      
+      const blogs = showPublishedOnly 
         ? await storage.getPublishedBlogs()
         : await storage.getAllBlogs();
       res.json(blogs);
@@ -80,6 +106,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (!blog) {
         return res.status(404).json({ error: "Blog not found" });
       }
+      
+      // Only allow access to unpublished content for authenticated users
+      const isAuthenticated = req.session?.user;
+      if (!blog.published && !isAuthenticated) {
+        return res.status(404).json({ error: "Blog not found" });
+      }
+      
       res.json(blog);
     } catch (error) {
       res.status(500).json({ error: "Failed to fetch blog" });
@@ -121,11 +154,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Service routes
+  // Service routes - secure by default
   app.get("/api/services", async (req, res) => {
     try {
       const { published } = req.query;
-      const services = published === 'true' 
+      const isAuthenticated = req.session?.user;
+      
+      // Default to published content for unauthenticated users
+      const showPublishedOnly = !isAuthenticated || published === 'true';
+      
+      const services = showPublishedOnly 
         ? await storage.getPublishedServices()
         : await storage.getAllServices();
       res.json(services);
@@ -140,6 +178,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (!service) {
         return res.status(404).json({ error: "Service not found" });
       }
+      
+      // Only allow access to unpublished content for authenticated users
+      const isAuthenticated = req.session?.user;
+      if (!service.published && !isAuthenticated) {
+        return res.status(404).json({ error: "Service not found" });
+      }
+      
       res.json(service);
     } catch (error) {
       res.status(500).json({ error: "Failed to fetch service" });
@@ -181,11 +226,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Testimonial routes
+  // Testimonial routes - secure by default
   app.get("/api/testimonials", async (req, res) => {
     try {
       const { published } = req.query;
-      const testimonials = published === 'true' 
+      const isAuthenticated = req.session?.user;
+      
+      // Default to published content for unauthenticated users
+      const showPublishedOnly = !isAuthenticated || published === 'true';
+      
+      const testimonials = showPublishedOnly 
         ? await storage.getPublishedTestimonials()
         : await storage.getAllTestimonials();
       res.json(testimonials);
@@ -200,6 +250,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (!testimonial) {
         return res.status(404).json({ error: "Testimonial not found" });
       }
+      
+      // Only allow access to unpublished content for authenticated users
+      const isAuthenticated = req.session?.user;
+      if (!testimonial.published && !isAuthenticated) {
+        return res.status(404).json({ error: "Testimonial not found" });
+      }
+      
       res.json(testimonial);
     } catch (error) {
       res.status(500).json({ error: "Failed to fetch testimonial" });
@@ -241,11 +298,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Project routes
+  // Project routes - secure by default
   app.get("/api/projects", async (req, res) => {
     try {
       const { published } = req.query;
-      const projects = published === 'true' 
+      const isAuthenticated = req.session?.user;
+      
+      // Default to published content for unauthenticated users
+      const showPublishedOnly = !isAuthenticated || published === 'true';
+      
+      const projects = showPublishedOnly 
         ? await storage.getPublishedProjects()
         : await storage.getAllProjects();
       res.json(projects);
@@ -260,6 +322,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (!project) {
         return res.status(404).json({ error: "Project not found" });
       }
+      
+      // Only allow access to unpublished content for authenticated users
+      const isAuthenticated = req.session?.user;
+      if (!project.published && !isAuthenticated) {
+        return res.status(404).json({ error: "Project not found" });
+      }
+      
       res.json(project);
     } catch (error) {
       res.status(500).json({ error: "Failed to fetch project" });
@@ -391,14 +460,46 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Admin user creation route (only for setup)
-  app.post("/api/admin/create-user", async (req, res) => {
+  // Secure admin user creation route (protected endpoint)
+  app.post("/api/admin/create-user", requireAuth, async (req, res) => {
     try {
-      const validatedData = insertUserSchema.parse(req.body);
-      const user = await storage.createUser(validatedData);
+      // Enhanced validation with password policy
+      const enhancedUserSchema = insertUserSchema.extend({
+        password: z.string()
+          .min(8, "Password must be at least 8 characters")
+          .regex(/[A-Z]/, "Password must contain at least one uppercase letter")
+          .regex(/[a-z]/, "Password must contain at least one lowercase letter")
+          .regex(/[0-9]/, "Password must contain at least one number")
+          .regex(/[^A-Za-z0-9]/, "Password must contain at least one special character"),
+      });
+      
+      const validatedData = enhancedUserSchema.parse(req.body);
+      
+      // Check if username already exists
+      const existingUser = await storage.getUserByUsername(validatedData.username);
+      if (existingUser) {
+        return res.status(409).json({ error: "Username already exists" });
+      }
+      
+      // Hash the password before storing
+      const saltRounds = 12;
+      const hashedPassword = await bcrypt.hash(validatedData.password, saltRounds);
+      
+      const userWithHashedPassword = {
+        ...validatedData,
+        password: hashedPassword,
+      };
+      
+      const user = await storage.createUser(userWithHashedPassword);
       res.status(201).json({ id: user.id, username: user.username });
     } catch (error) {
-      res.status(400).json({ error: "Invalid user data" });
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ 
+          error: "Invalid user data",
+          details: error.errors.map(e => e.message)
+        });
+      }
+      res.status(500).json({ error: "Failed to create user" });
     }
   });
 
