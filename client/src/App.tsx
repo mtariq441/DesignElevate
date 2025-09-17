@@ -10,6 +10,9 @@ import Home from "@/pages/Home";
 import WhoAmI from "@/pages/WhoAmI";
 import Education from "@/pages/Education";
 import Contact from "@/pages/Contact";
+import ExpertiseHub from "@/pages/ExpertiseHub";
+import WebSecurityExpertise from "@/pages/WebSecurityExpertise";
+import WebDevelopmentExpertise from "@/pages/WebDevelopmentExpertise";
 import NotFound from "@/pages/NotFound";
 
 function Router() {
@@ -18,6 +21,9 @@ function Router() {
       <Route path="/" component={Home} />
       <Route path="/who-am-i" component={WhoAmI} />
       <Route path="/education" component={Education} />
+      <Route path="/expertise" component={ExpertiseHub} />
+      <Route path="/expertise/web-security" component={WebSecurityExpertise} />
+      <Route path="/expertise/web-development" component={WebDevelopmentExpertise} />
       <Route path="/contact" component={Contact} />
       {/* Fallback to 404 */}
       <Route component={NotFound} />
